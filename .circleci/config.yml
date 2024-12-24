@@ -1,19 +1,16 @@
 version: 2.1
 
-orbs:
-  python: circleci/python@2.1
-
 jobs:
   build-and-test:
     docker:
       - image: cimg/python:3.9
     steps:
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
-          packages:
-            - PyGithub
-            - python-dotenv
+      - run:
+          name: Install Dependencies
+          command: |
+            python -m pip install --upgrade pip
+            pip install PyGithub python-dotenv
       - run:
           name: Run Auto Commit
           command: |
@@ -21,14 +18,11 @@ jobs:
           no_output_timeout: 30m
 
 workflows:
-  main:
+  version: 2
+  commit-workflow:
     jobs:
-      - build-and-test:
-          filters:
-            branches:
-              only:
-                - main
-  scheduled:
+      - build-and-test
+  scheduled-workflow:
     triggers:
       - schedule:
           cron: "0 */4 * * *"
