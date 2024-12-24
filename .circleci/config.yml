@@ -21,10 +21,10 @@ workflows:
   commit-workflow:
     jobs:
       - build-and-test
-  nightly:
+  scheduled:
     triggers:
       - schedule:
-          cron: "0 0/4 * * *"
+          cron: "0 */4 * * *"
           filters:
             branches:
               only:
