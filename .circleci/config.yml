@@ -18,14 +18,13 @@ jobs:
           no_output_timeout: 30m
 
 workflows:
-  version: 2
   commit-workflow:
     jobs:
       - build-and-test
-  scheduled-workflow:
+  nightly:
     triggers:
       - schedule:
-          cron: "0 */4 * * *"
+          cron: "0 0/4 * * *"
           filters:
             branches:
               only:
